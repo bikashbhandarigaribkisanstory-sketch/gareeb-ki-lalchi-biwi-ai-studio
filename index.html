@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>Gareeb Ki Lalchi Biwi AI Studio</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1220;color:#f1f5f9;font-family:Arial,sans-serif}
+header{text-align:center;padding:22px 12px;background:#142139;border-bottom:1px solid #34445d}
+h1{font-size:22px;margin:0 0 7px}
+header p{color:#aab8ce;font-size:13px;margin:0}
+main{max-width:850px;margin:auto;padding:14px}
+.card{background:#142139;border:1px solid #34445d;border-radius:14px;padding:15px;margin-bottom:14px}
+h2{font-size:17px;color:#fbbf24;margin:0 0 12px}
+label{display:block;font-size:13px;color:#cbd5e1;margin:12px 0 6px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #40516c;border-radius:9px;background:#0b1527;color:white;font-size:15px}
+textarea{min-height:95px;resize:vertical}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{padding:12px;border:0;border-radius:9px;font-weight:bold;font-size:14px;cursor:pointer}
+.primary{background:#f59e0b;color:#241500;width:100%;margin-top:14px}
+.secondary{background:#30435f;color:white}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.actions button{flex:1}
+#status{color:#fbbf24;font-size:13px;margin-top:12px;white-space:pre-wrap}
+#output{white-space:pre-wrap;line-height:1.6;overflow-wrap:anywhere;min-height:140px}
+.small{color:#9fb0c8;font-size:12px;line-height:1.5}
+canvas{width:100%;border-radius:9px;margin-top:10px;background:#263650}
+@media(max-width:550px){.grid{grid-template-columns:1fr}h1{font-size:19px}}
+</style>
+</head>
+<body>
+<header>
+<h1>🎬 Gareeb Ki Lalchi Biwi AI Studio</h1>
+<p>AI YouTube Creator Studio</p>
+</header>
+
+<main>
+<section class="card">
+<h2>⚙️ AI Connection</h2>
+<label>Cloudflare Worker URL</label>
+<input id="worker" placeholder="https://your-worker.workers.dev">
+<button class="secondary" style="width:100%;margin-top:10px" id="save">Save Connection</button>
+<p class="small">यहाँ Worker URL डालें। Gemini API Key यहाँ कभी न डालें।</p>
+</section>
+
+<section class="card">
+<h2>📝 Video Details</h2>
+<label>Video Topic / कहानी</label>
+<textarea id="topic" placeholder="अपनी कहानी या वीडियो का विषय लिखें..."></textarea>
+
+<div class="grid">
+<div>
+<label>Channel Name</label>
+<input id="channel" value="Gareeb Ki Lalchi Biwi">
+</div>
+<div>
+<label>Language</label>
+<select id="language">
+<option>Hindi</option>
+<option>American English</option>
+<option>Hinglish</option>
+</select>
+</div>
+<div>
+<label>Video Type</label>
+<select id="type">
+<option value="Shorts">YouTube Shorts</option>
+<option value="Long Video">Long Video</option>
+</select>
+</div>
+<div>
+<label>Resolution</label>
+<select id="ratio">
+<option>9:16</option>
+<option>16:9</option>
+<option>1:1</option>
+</select>
+</div>
+<div>
+<label>Duration</label>
+<select id="duration">
+<option>10 seconds</option>
+<option>20 seconds</option>
+<option>30 seconds</option>
+<option>60 seconds</option>
+<option>3 minutes</option>
+<option>5 minutes</option>
+<option>10 minutes</option>
+</select>
+</div>
+<div>
+<label>Video Style</label>
+<select id="style">
+<option>2D Animated Cartoon</option>
+<option>3D Animation</option>
+<option>Realistic Cinematic</option>
+<option>Funny Comedy</option>
+<option>Emotional Moral Story</option>
+<option>Devotional</option>
+<option>Educational</option>
+<option>Machine and Vehicle Videos</option>
+</select>
+</div>
+</div>
+
+<label>Extra Instructions</label>
+<textarea id="extra" placeholder="Character look, clothes, voice, scene details..."></textarea>
+</section>
+
+<section class="card">
+<h2>🚀 AI Tools</h2>
+<label>Choose Tool</label>
+<select id="task">
+<option value="complete">Complete Creator Package</option>
+<option value="story">Story Writing</option>
+<option value="shorts">Shorts Script</option>
+<option value="long">Full Long Script</option>
+<option value="hook">Viral Hook and Suspense</option>
+<option value="characters">Character Bible and Character Lock</option>
+<option value="scenes">Scene Breakdown</option>
+<option value="image">Image Prompts</option>
+<option value="video">Video Prompts</option>
+<option value="dialogue">Dialogue and Voice-over</option>
+<option value="sound">Music and Sound Effects</option>
+<option value="seo">Complete YouTube SEO</option>
+<option value="titles">Titles and Description</option>
+<option value="tags">Keywords and Tags</option>
+<option value="thumbnail">Thumbnail Prompt and Text</option>
+<option value="ideas">Viral Video Ideas</option>
+<option value="retention">Retention Improvement</option>
+</select>
+
+<label>Target Audience</label>
+<select id="audience">
+<option>India Hindi Audience</option>
+<option>USA Audience</option>
+<option>Global Audience</option>
+</select>
+
+<button class="primary" id="generate">✨ GENERATE NOW</button>
+<div id="status"></div>
+</section>
+
+<section class="card">
+<h2>📄 AI Result</h2>
+<div id="output">आपका AI result यहाँ दिखाई देगा।</div>
+<div class="actions">
+<button class="secondary" id="copy">Copy</button>
+<button class="secondary" id="download">Download TXT</button>
+<button class="secondary" id="clear">Clear</button>
+</div>
+</section>
+
+<section class="card">
+<h2>🖼️ Thumbnail Maker</h2>
+<label>Thumbnail Text</label>
+<input id="thumbText" placeholder="लालची पत्नी का राज!">
+<div class="grid">
+<div>
+<label>Ratio</label>
+<select id="thumbRatio">
+<option value="16:9">16:9 Long</option>
+<option value="9:16">9:16 Shorts</option>
+</select>
+</div>
+<div>
+<label>Text Position</label>
+<select id="thumbPos">
+<option value="center">Center</option>
+<option value="top">Top</option>
+<option value="bottom">Bottom</option>
+</select>
+</div>
+</div>
+<label>Upload Background Photo</label>
+<input type="file" id="photo" accept="image/*">
+<canvas id="canvas"></canvas>
+<div class="actions">
+<button class="secondary" id="make">Make Thumbnail</button>
+<button class="secondary" id="saveImage">Download PNG</button>
+</div>
+</section>
+
+<p class="small">AI generation Gemini API की उपलब्ध quota और limits पर निर्भर है। यह ऐप वीडियो को YouTube पर अपने-आप upload नहीं करता।</p>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+$("worker").value=localStorage.getItem("gklb_worker")||"";
+
+$("save").onclick=()=>{
+ const u=$("worker").value.trim();
+ if(!u){$("status").textContent="Worker URL डालें।";return;}
+ localStorage.setItem("gklb_worker",u);
+ $("status").textContent="Connection saved.";
+};
+
+function makePrompt(){
+ const topic=$("topic").value.trim();
+ if(!topic)throw Error("पहले Video Topic लिखें।");
+
+ const taskText={
+ complete:"Create a complete YouTube creator package including hook, script, locked character descriptions, scene breakdown, image prompts, video prompts, dialogues, voice, music, SFX, SEO, titles, description, hashtags, tags and thumbnail prompt.",
+ story:"Write an engaging complete story with a powerful hook, conflict, suspense, twist and satisfying ending.",
+ shorts:"Write a highly engaging YouTube Shorts script with a strong hook and memorable ending.",
+ long:"Write a detailed long-form YouTube script with scenes, narration and dialogues.",
+ hook:"Create powerful viral hooks, suspense and curiosity gaps.",
+ characters:"Create a detailed character bible. Lock every character's face, body, age, height, hair, clothes, shoes, colors and voice.",
+ scenes:"Create a detailed scene-by-scene breakdown with timing, action, camera and emotions.",
+ image:"Create copy-ready image generation prompts for every scene.",
+ video:"Create copy-ready video generation prompts for every scene including all dialogue, voice-over, music, sound effects and on-screen text.",
+ dialogue:"Write character dialogues, narration and voice continuity instructions.",
+ sound:"Create a scene-wise voice, background music and sound effects plan.",
+ seo:"Create complete YouTube SEO including titles, description, hashtags, keywords and tags.",
+ titles:"Create clickable titles, short description and relevant hashtags.",
+ tags:"Create searchable YouTube keywords and comma-separated tags.",
+ thumbnail:"Create a high-click thumbnail prompt and short bold thumbnail text.",
+ ideas:"Give 20 original viral video ideas.",
+ retention:"Improve the hook, pacing, suspense, curiosity and viewer retention."
+ };
+
+ const shortsRules=$("type").value==="Shorts"
+ ? "For Shorts, use exactly 10 seconds per scene unless the selected total duration requires multiple scenes. Give BOTH Image Prompt and Video Prompt for every scene. Put all dialogue, narration, voice-over, music, SFX and on-screen text inside the Video Prompt. Include a clear Subscribe CTA in the final 2 seconds. Keep characters and voices exactly consistent."
+ : "For long videos, divide the video into sequential scenes of approximately 10 seconds each. Give Image Prompt and Video Prompt for every scene. Maintain exact character and voice continuity. Include dialogue, narration, music, SFX and screen text inside each Video Prompt.";
+
+ return `You are an expert YouTube creator assistant.
+
+CHANNEL: ${$("channel").value}
+LANGUAGE: ${$("language").value}
+AUDIENCE: ${$("audience").value}
+VIDEO TYPE: ${$("type").value}
+DURATION: ${$("duration").value}
+RESOLUTION: ${$("ratio").value}
+STYLE: ${$("style").value}
+TOPIC: ${topic}
+EXTRA INSTRUCTIONS: ${$("extra").value}
+
+TASK:
+${taskText[$("task").value]}
+
+MANDATORY RULES:
+${shortsRules}
+
+If audience is USA, use natural American English unless Hindi is requested.
+Use clear headings and copy-ready prompts. Do not use vague placeholders.
+Repeat exact character descriptions wherever needed to maintain continuity.
+Make the output practical for AI video generators.`;
+}
+
+$("generate").onclick=async()=>{
+ const url=$("worker").value.trim()||localStorage.getItem("gklb_worker");
+ if(!url){$("status").textContent="पहले Cloudflare Worker URL डालें।";return;}
+ let prompt;
+ try{prompt=makePrompt();}catch(e){$("status").textContent=e.message;return;}
+
+ $("generate").disabled=true;
+ $("status").textContent="AI जवाब तैयार कर रहा है...";
+ try{
+  const response=await fetch(url,{
+   method:"POST",
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({prompt})
+  });
+  const data=await response.json();
+  if(!response.ok)throw Error(data.error||"Request failed: "+response.status);
+  if(!data.text)throw Error("AI का जवाब खाली है।");
+  $("output").textContent=data.text;
+  $("status").textContent="काम पूरा हुआ!";
+ }catch(e){
+  $("status").textContent="Error: "+e.message+"\nWorker URL और Cloudflare deployment जाँचें।";
+ }
+ $("generate").disabled=false;
+};
+
+$("copy").onclick=async()=>{
+ try{
+  await navigator.clipboard.writeText($("output").textContent);
+  $("status").textContent="Copied!";
+ }catch(e){$("status").textContent="Text को दबाकर manually copy करें।";}
+};
+
+$("download").onclick=()=>{
+ const blob=new Blob([$("output").textContent],{type:"text/plain;charset=utf-8"});
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download="AI-Creator-Result.txt";
+ a.click();
+ URL.revokeObjectURL(a.href);
+};
+
+$("clear").onclick=()=>{
+ $("output").textContent="";
+ $("status").textContent="Cleared.";
+};
+
+let bgImage=null;
+$("photo").onchange=e=>{
+ const file=e.target.files[0];
+ if(!file)return;
+ const reader=new FileReader();
+ reader.onload=()=>{
+  const img=new Image();
+  img.onload=()=>{bgImage=img;drawThumbnail();};
+  img.src=reader.result;
+ };
+ reader.readAsDataURL(file);
+};
+
+function drawThumbnail(){
+ const c=$("canvas"),ctx=c.getContext("2d");
+ const ratio=$("thumbRatio").value;
+ c.width=900;
+ c.height=ratio==="16:9"?506:1600;
+ ctx.fillStyle="#263650";
+ ctx.fillRect(0,0,c.width,c.height);
+
+ if(bgImage){
+  const scale=Math.max(c.width/bgImage.width,c.height/bgImage.height);
+  const w=bgImage.width*scale,h=bgImage.height*scale;
+  ctx.drawImage(bgImage,(c.width-w)/2,(c.height-h)/2,w,h);
+ }
+
+ ctx.fillStyle="rgba(0,0,0,.48)";
+ ctx.fillRect(0,0,c.width,c.height);
+ const text=$("thumbText").value||"YOUR TEXT";
+ const pos=$("thumbPos").value;
+ const y=pos==="top"?c.height*.18:pos==="bottom"?c.height*.82:c.height*.5;
+
+ ctx.font="bold 68px Arial";
+ ctx.textAlign="center";
+ ctx.textBaseline="middle";
+ ctx.lineWidth=10;
+ ctx.strokeStyle="#111";
+ ctx.fillStyle="#fff";
+
+ const words=text.split(" ");
+ const lines=[];
+ let line="";
+ for(const word of words){
+  const test=line?line+" "+word:word;
+  if(ctx.measureText(test).width>c.width*.85&&line){
+   lines.push(line);line=word;
+  }else line=test;
+ }
+ if(line)lines.push(line);
+ const start=y-(lines.length-1)*45;
+ lines.forEach((l,i)=>{
+  ctx.strokeText(l,c.width/2,start+i*90,c.width*.88);
+  ctx.fillText(l,c.width/2,start+i*90,c.width*.88);
+ });
+}
+$("make").onclick=drawThumbnail;
+$("thumbText").oninput=drawThumbnail;
+$("thumbRatio").onchange=drawThumbnail;
+$("thumbPos").onchange=drawThumbnail;
+$("saveImage").onclick=()=>{
+ drawThumbnail();
+ const a=document.createElement("a");
+ a.download="thumbnail.png";
+ a.href=$("canvas").toDataURL("image/png");
+ a.click();
+};
+drawThumbnail();
+</script>
+</body>
+</html>
