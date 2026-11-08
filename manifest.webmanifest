@@ -1,0 +1,12 @@
+{
+  "name": "Gareeb Ki Lalchi Biwi AI Studio",
+  "short_name": "GKL Biwi AI",
+  "description": "AI YouTube Creator Studio",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#101827",
+  "theme_color": "#101827",
+  "icons": []
+}
